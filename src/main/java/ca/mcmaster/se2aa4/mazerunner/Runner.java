@@ -63,4 +63,15 @@ class Runner {
         copy.addMovement(this.path.getCanonicalPath());
         return copy;
     }
+
+    //accessor method for the Runner's direction.
+    public Direction getDirection(){
+        Direction directionCopy = this.runnerDirection;
+        return directionCopy;
+    }
+
+    //accessor method for the Runner's position;
+    public int[] getPosition(){
+        return new int[]{runnerPosition[0], runnerPosition[1]};
+    }
 }
