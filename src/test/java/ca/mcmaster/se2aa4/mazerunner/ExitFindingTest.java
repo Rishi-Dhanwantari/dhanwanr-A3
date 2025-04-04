@@ -12,7 +12,7 @@ class ExitFindingTest {
     @Test
     void testMazeTraversal() {
         Maze maze = new Maze("./examples/straight.maz.txt");
-        Runner runner = new Runner(maze.getEntryPoint(), Direction.EAST);
+        RightHandRunner runner = new RightHandRunner(maze.getEntryPoint(), Direction.EAST);
 
         runner.traverseMaze(maze);
 

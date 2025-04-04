@@ -12,7 +12,7 @@ class RunnerPathTest {
     @Test
     void testRunnerPathTracking() {
         Maze maze = new Maze("./examples/tiny.maz.txt");
-        Runner runner = new Runner(maze.getEntryPoint(), Direction.EAST);
+        RightHandRunner runner = new RightHandRunner(maze.getEntryPoint(), Direction.EAST);
 
         runner.traverseMaze(maze);
 

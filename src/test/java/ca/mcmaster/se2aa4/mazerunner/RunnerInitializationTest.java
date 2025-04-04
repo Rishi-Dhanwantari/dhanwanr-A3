@@ -12,7 +12,7 @@ class RunnerInitializationTest {
     @Test
     void testRunnerInitialization() {
         Maze maze = new Maze("./examples/straight.maz.txt");
-        Runner runner = new Runner(maze.getEntryPoint(), Direction.EAST);
+        RightHandRunner runner = new RightHandRunner(maze.getEntryPoint(), Direction.EAST);
 
         assertEquals(runner.getPosition()[0], maze.getEntryPoint()[0]);
         assertEquals(runner.getPosition()[1], maze.getEntryPoint()[1]);

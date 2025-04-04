@@ -38,7 +38,8 @@ public class Main {
 
         try {
             Maze maze = new Maze(inputMazeFile);
-            Runner runner = new Runner(maze.getEntryPoint(), Direction.EAST);
+            RunnerFactory runnerFactory = new RunnerFactory();
+            Runner runner = runnerFactory.getRunner(maze.getEntryPoint(), Direction.EAST, "Right Hand");
 
             runner.traverseMaze(maze);
         
