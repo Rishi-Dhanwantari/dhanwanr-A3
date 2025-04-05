@@ -8,12 +8,14 @@ class RightHandRunner extends Runner {
     private int[] runnerPosition;
     private Direction runnerDirection;
     private Path path;
+    private MovementHandler movementChain;
 
     //constructor method for Runner.
     public RightHandRunner(int[] entryPosition, Direction startingDirection){
         this.runnerPosition = entryPosition;
         this.runnerDirection = startingDirection;
         this.path = new Path();
+        buildMovementChain();
     }
 
     //method that traverses the maze by following the right wall until the exit.
@@ -21,24 +23,12 @@ class RightHandRunner extends Runner {
         int[] exitPoint = maze.getExitPoint();
 
         while (!(this.runnerPosition[0] == exitPoint[0] && this.runnerPosition[1] == exitPoint[1])){
-            Direction right = this.runnerDirection.turnRight();
-            int[] currentRight = right.getCurrentDirection();
-            
-            if (maze.isPass(this.runnerPosition[0] + currentRight[0], this.runnerPosition[1] + currentRight[1])){
-                runnerTurnRight();
-                moveForward();
-
-            } else if (maze.isPass(this.runnerPosition[0] + this.runnerDirection.getCurrentDirection()[0], this.runnerPosition[1] + this.runnerDirection.getCurrentDirection()[1])){
-                moveForward();
-
-            } else{
-                runnerTurnLeft();
-            }
+            this.movementChain.handle(this, maze);
         }
     }
 
     //method that moves the Runner one position forward, whichever direction they are facing.
-    private void moveForward(){
+    public void moveForward(){
         int[] currentDirection = runnerDirection.getCurrentDirection();
         this.runnerPosition[0] += currentDirection[0];
         this.runnerPosition[1] += currentDirection[1];
@@ -46,15 +36,26 @@ class RightHandRunner extends Runner {
     }
 
     //method that adjusts the Runner's direction by turning it right once.
-    private void runnerTurnRight(){
+    public void runnerTurnRight(){
         this.runnerDirection = this.runnerDirection.turnRight();
         this.path.addMovement("R");
     }
 
     //method that adjusts the Runner's direction by turning it left once.
-    private void runnerTurnLeft(){
+    public void runnerTurnLeft(){
         this.runnerDirection = this.runnerDirection.turnLeft();
         this.path.addMovement("L");
+    }
+
+    //builds handling chain
+    private void buildMovementChain() {
+        MovementHandler right = new RightHandRightTurnHandler();
+        MovementHandler forward = new ForwardMoveHandler();
+        MovementHandler left = new RightHandLeftTurnHandler();
+
+        right.setSuccessor(forward);
+        forward.setSuccessor(left);
+        this.movementChain = right;
     }
 
     //accessor method for the Runner's path.
